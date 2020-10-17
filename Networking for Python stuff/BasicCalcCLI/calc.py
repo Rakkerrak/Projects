@@ -3,7 +3,7 @@
 # but we're windows so just use python cli.py
 
 import commands
-import argparse
+import argparse #https://docs.python.org/3/library/argparse.html
 
 
 def main():
