@@ -3,7 +3,7 @@ import fileinput
 
 
 def menu():
-    print("Option 1: A normal slope(Part A) \nOption 2: (Part B)\nOption 3: Exit\n\nType a number\n\n")
+    print("Option 1: A normal slope(Part A) \nOption 2: All the slopes(Part B)\nOption 3: Exit\n\nType a number\n\n")
     option = int(input(">> "))
     if option == 1:
         option1()
