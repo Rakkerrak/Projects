@@ -17,7 +17,7 @@ def menu():
         menu()
 
 def validbynum(): #returns a list of passport records(records are a list of strings)
-    with open('test.txt', 'r') as file:
+    with open('Day4.txt', 'r') as file:
         lines = file.readlines()
         #seoerating the different records by looking at the newlines.
         records1 = []
@@ -57,11 +57,112 @@ def validbynum(): #returns a list of passport records(records are a list of stri
 
 def option1():
         print(len(validbynum()))
+#function to check value is in a range since it comes up a lot
+def rangecheck(field, value, min, max):
+    try:
+        int(value)
+        if min <= int(value) <= max:
+            print(field,value,"True")
+            return True
+        else:
+            print(field,value,"False")
+            return False
+    except ValueError:
+        return False
+
+#commanddict functions
+def byrcheck(field, value):
+    return rangecheck(field, value, 1920, 2020)
+
+def iyrcheck(field, value):
+    return rangecheck(field, value, 2010, 2020)
+
+def eyrcheck(field, value):
+    return rangecheck(field, value, 2020, 2030)
+
+def hgtcheck(field, value):
+    measure = value[-2:]
+    if measure in ['cm','in']:
+        print(measure)
+        try:
+            year = int(value[:-2])
+            if measure == 'cm':
+                return rangecheck(field, year, 150, 193)
+            elif measure == 'in':
+                return rangecheck(field, year, 59, 76)
+            else:
+                print("Error")
+        except ValueError:
+            print(field, value, "Val error")
+            return False
+
+def hclcheck(field, value):
+    if value[0] == '#':
+        for char in value[1:]:
+            try:
+                int(char)
+            except ValueError:
+                if char > 'f':
+                    print(field, value, "False letter too big")
+                    return False
+        print(field, value, "True")
+        return True
+    else:
+        print(field, value, "False")
+        return False
+
+def eclcheck(field, value):
+    if value in ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']:
+        print(field, value, "True")
+        return True
+    else:
+        print(field, value, "False")
+        return False
+
+def pidcheck(field, value):
+    if len(value) == 9 and value.isdigit():
+        print(field, value, "True")
+        return True
+    else:
+        print(field, value, "False")
+        return False
 
 
 def option2():
-    print("in progress")
-    menu()
+    records = validbynum()
+    #creating a dictionary
+    recdicts = []
+    currec = {}
+    for passport in records:
+        for field in passport:
+            fieldpair = field.split(':')
+            currec.update({fieldpair[0]:fieldpair[1]})
+        recdicts.append(currec)
+        currec = {}
+    #checking values in the dictionary. could be merged but...eh
+    commanddict = {'byr': byrcheck, 'iyr': iyrcheck, 'eyr': eyrcheck, 'hgt': hgtcheck, 'hcl': hclcheck, 'ecl': eclcheck, 'pid': pidcheck}
+    good = []
+    for passport in recdicts:
+        print(passport)
+        ok = True
+        while ok == True:
+            for field in passport:
+                if field in commanddict:
+                    # print(field, passport[field])
+                    if not commanddict[field](field, passport[field]):
+                        ok = False
+                        break
+                elif field not in commanddict:
+                    print(field, "not in dict")
+            if ok == True:
+                good.append(passport)
+                print("passport added")
+                break
+    print(len(good))
+
+
+
+
 
 
 
