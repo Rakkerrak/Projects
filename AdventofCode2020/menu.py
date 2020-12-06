@@ -1,5 +1,5 @@
 def menu():
-    print("Option 1: (Part A) \nOption 2: (Part B)\nOption 3: Exit\n\nType a number\n\n")
+    print("\nOption 1: (Part A) \nOption 2: (Part B)\nOption 3: Exit\n\nType a number\n\n")
     try:
         option = int(input(">> "))
         if option == 1:
